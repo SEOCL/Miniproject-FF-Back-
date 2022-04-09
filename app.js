@@ -7,10 +7,10 @@ const port = 3000;
 connect();
 
 // 라우터 불러오기
-const articleRouter = require("./routes/articles");
-const mainPageRouter = require("./routes/mainPages");
-const myPageRouter = require("./routes/myPages");
-const userRouter = require("./routes/users");
+const articleRouter = require("./routers/articles");
+const mainPageRouter = require("./routers/mainPages");
+const myPageRouter = require("./routers/myPages");
+const userRouter = require("./routers/users");
 
 // 접속 로그 남기기
 const requestMiddleware = (req, res, next) => {
