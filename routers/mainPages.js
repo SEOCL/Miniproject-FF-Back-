@@ -12,91 +12,119 @@ router.get("/main", async (req, res) => {
 
     res.json({ article });
   } catch (error) {
-    res.status(404).send({ result: false });
+    res.status(404).json({ result: false });
   }
 });
 
 // 모달창 해당 게시글 데이터
-router.get("/modal/:articleNum", async (req, res) => {
-  const { articleNum } = req.params;
+router.get("/modal", async (req, res) => {
+  try {
+    const { articleNum } = req.query;
 
-  const comment = await Comment.find({ articleNum });
-  const like = await Like.find({ articleNum });
+    const comment = await Comment.find({ articleNum });
+    const like = await Like.find({ articleNum });
 
-  let likeCheck = false;
+    let likeCheck = false;
 
-  if (like) {
-    likeCheck = true;
+    if (like) {
+      likeCheck = true;
+    }
+
+    res.json({ comment, like: likeCheck });
+  } catch (error) {
+    res.status(404).json({ result: false });
   }
-
-  res.json({ comment, like: likeCheck });
 });
 
 // 검색 기능
-router.get("/search/:articleKind/:articleDesc", async (req, res) => {
-  const { articleKind, articleDesc } = req.params;
+router.get("/search", async (req, res) => {
+  try {
+    const { articleKind, articleDesc } = req.query;
 
-  const article = await Article.find({
-    articleKind: articleKind,
-    articleDesc: { $regex: articleDesc },
-  });
+    console.log(articleKind, articleDesc);
 
-  res.json({ article });
+    const article = await Article.find({
+      articleKind: articleKind,
+      articleDesc: { $regex: articleDesc },
+    });
+
+    res.json({ article });
+  } catch (error) {
+    res.status(404).json({ result: false });
+  }
 });
 
 // 좋아요 추가 삭제 기능
 router.post("/like", async (req, res) => {
-  const { articleNum, like, logInToken } = req.body;
+  try {
+    const { articleNum, like, logInToken } = req.body;
 
-  const decoded = jwt.verify(logInToken, "key");
+    const decoded = jwt.verify(logInToken, "key");
 
-  if (like) {
-    await Article.update({ articleNum }, { $inc: { articleLikeNum: -1 } });
-    await Like.deleteOne({ articleNum, userId: decoded.userId });
-  } else {
-    await Article.update({ articleNum }, { $inc: { articleLikeNum: 1 } });
-    await Like.create({ articleNum, userId: decoded.userId });
+    if (like) {
+      await Article.update({ articleNum }, { $inc: { articleLikeNum: -1 } });
+      await Like.deleteOne({ articleNum, userId: decoded.userId });
+    } else {
+      await Article.update({ articleNum }, { $inc: { articleLikeNum: 1 } });
+      await Like.create({ articleNum, userId: decoded.userId });
+    }
+
+    res.json({ result: true });
+  } catch (error) {
+    res.status(400).json({ result: false });
   }
-
-  res.json({ result: true });
 });
 
 // 댓글 작성
 router.post("/commentPost", async (req, res) => {
-  const { articleNum, contents, logInToken } = req.body;
+  try {
+    const { articleNum, contents, logInToken } = req.body;
 
-  const decoded = jwt.verify(logInToken, "key");
-  const maxCommentNumber = await Comment.findOne().sort("-commentNum");
+    const decoded = jwt.verify(logInToken, "key");
+    const maxCommentNumber = await Comment.findOne().sort("-commentNum");
 
-  let commentNum = 1;
-  if (maxCommentNumber) {
-    commentNum = maxCommentNumber.commentNum + 1;
+    let commentNum = 1;
+    if (maxCommentNumber) {
+      commentNum = maxCommentNumber.commentNum + 1;
+    }
+
+    const commentDate = new Date();
+
+    await Comment.create({
+      articleNum,
+      commentNum,
+      userId: decoded.userId,
+      userProfile: decoded.userProfile,
+      userName: decoded.userName,
+      contents,
+      commentDate,
+    });
+
+    await Article.update({ articleNum }, { $inc: { articleCommentNum: 1 } });
+
+    res.json({ result: true });
+  } catch (error) {
+    res.status(400).json({ result: false });
   }
-
-  const commentDate = new Date();
-
-  await Comment.create({
-    articleNum,
-    commentNum,
-    userId: decoded.userId,
-    userProfile: decoded.userProfile,
-    userName: decoded.userName,
-    contents,
-    commentDate,
-  });
-
-  await Article.update({ articleNum }, { $inc: { articleCommentNum: 1 } });
-
-  res.json({ result: true });
 });
 
 // 댓글 삭제
 router.delete("/commentDelete", async (req, res) => {
-  const { commentNum } = req.body;
+  try {
+    const { commentNum } = req.body;
 
-  await Comment.delete({ commentNum });
+    const commentArticleNum = await Comment.findOne({ commentNum });
 
-  res.json({ result: true });
+    await Comment.deleteOne({ commentNum });
+    await Article.update(
+      { articleNum: commentArticleNum.articleNum },
+      { $inc: { articleCommentNum: -1 } }
+    );
+
+    res.json({ result: true });
+  } catch (error) {
+    res.status(400).json({ result: false });
+  }
 });
 
 module.exports = router;
