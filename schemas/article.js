@@ -22,7 +22,7 @@ const articleSchema = mongoose.Schema({
     required: true,
   },
   articleCommentNum: {
-    type: String,
+    type: Number,
     required: true,
   },
   articleKind: {
