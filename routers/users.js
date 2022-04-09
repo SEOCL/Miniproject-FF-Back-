@@ -109,10 +109,5 @@ router.post('/user/signUp', async (req, res) => {
         res.status(200).send({result: true});
     } 
 );
-//회원가입 시, 유저의 초기 프로필 사진을 고정 url로 주기-> DB에 저장시키기.
-
-
-//유저가 회원가입 요청시 ID중복여부를 확인하는 API입니다.
-
 
 module.exports = router;
