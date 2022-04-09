@@ -13,7 +13,7 @@ router.get('/user', async (req, res) => {
 
 
 //유저가 로그인 요청 시 사용하는 API입니다.
-router.post('/user/logIn', async (req, res) => {
+router.post('/logIn', async (req, res) => {
     
     const {userId, userPw} = req.body;
     const user = await User.findOne({userId, userPw})
@@ -42,7 +42,7 @@ router.post('/user/logIn', async (req, res) => {
 // user_id를 찾아서(auth를 통해 user의 정보에 들어있는 것) db에있는 토큰값을 비워준다.
 // 미들웨어 필요함.
 // 쿠키는 프론트에서 만들어준다. 
-router.get("/api/logout", auth, (req, res) => {
+router.get("/logout", auth, (req, res) => {
     try {
         res.clearCookie('쿠키 이름')    
     }
@@ -57,7 +57,7 @@ router.get("/api/logout", auth, (req, res) => {
 
 
 //유저가 회원가입 요청시 사용하는 API입니다.
-router.post('/user/signUp', async (req, res) => {
+router.post('/signUp', async (req, res) => {
     
         //ID의 시작과 끝이 a-zA-Z0-9글자로 3 ~ 10 단어로 구성되어야 한다.
         //Pw의 시작과 끝이 a-zA-Z0-9글자로 4 ~ 30 단어로 구성되어야 한다.
