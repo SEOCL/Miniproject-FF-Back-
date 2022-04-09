@@ -2,7 +2,7 @@
 // const timeCal = require('../function/TimeForToday') // 리액트에서 써야하려나?? ~~ 시간전 표기하는 함수
 const express = require('express');
 const router = express.Router();
-const Article = require('../schemas/article')
+const Article = require("../schemas/article");
 
 // 게시글 등록 
 // 더미 데이터 테스트 완료 ##

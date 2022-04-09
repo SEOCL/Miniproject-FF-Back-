@@ -1,6 +1,6 @@
-// 내가 맡은 부분 
+// 내가 맡은 부분
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const Article = require('../schemas/article')
 const User = require('../schemas/user')
@@ -17,17 +17,16 @@ router.post('/pwCheck', async (req, res) => {
         const token = { tokenUserId : "testID"} // 실제 토큰 값으로 대체해야함
         const userId = token.tokenUserId
 
-        userInfo = await User.findOne({ userId })
-        if (userInfo.userPw === userPw) {
-            res.status(200).json({ result : true })
-            return
-        } 
-        else {
-            console.log("myPages.js -> 비밀번호 체크에서 에러남");
-            res.status(401).json({ result : false })
-            return
-        }
-  });
+  userInfo = await User.findOne({ userId });
+  if (userInfo.userPw === userPw) {
+    res.status(200).json({ result: true });
+    return;
+  } else {
+    console.log("myPages.js -> 비밀번호 체크에서 에러남");
+    res.status(401).json({ result: false });
+    return;
+  }
+});
 
 // 내가 작성한 게시글 조회
 // 더미 데이터 테스트 완료 ##
@@ -39,13 +38,12 @@ router.get('/article', async (req, res) => {
         const { userId } = req.query
         const article = await Article.find({ userId })
 
-        res.status(200).json(article)
-    }
-    catch (error) {
-        console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
-        res.status(401).json({ result : false })
-    }
-  });
+    res.status(200).json(article);
+  } catch (error) {
+    console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
+    res.status(401).json({ result: false });
+  }
+});
 
 // 내가 좋아요 누른 게시글 조회
 // 더미 데이터 테스트 완료 ##
