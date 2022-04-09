@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const signUp = require('../schemas/signUp');
+const User = require('../schemas/user');
 const fs = require('fs');
 const myKey = fs.readFileSync(__dirname + '/key.txt').toString();
 
@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     const userNickName = jwt.verify(tokenValue, myKey);
     const userId = userNickName.NickName;
 
-    signUp
+    User
       .findOne({ NickName: userId })
       .exec()
       .then((user) => {
