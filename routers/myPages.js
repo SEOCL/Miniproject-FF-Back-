@@ -75,14 +75,35 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
 // 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
 // 인증미들웨어 추가예정
-router.post("/profileUpdate", authMiddleware, async (req, res) => {
+
+// router.post("/profileUpdate", authMiddleware, async (req, res) => {
+//   try {
+//     // 프로필 이미지 URL, 유저id
+//     const { userProfile } = req.body;
+//     const { user } = res.locals;
+//     const userId = user.userId;
+
+//     await User.updateOne({ userId }, { $set: { userProfile } });
+//     res.status(200).json({ result: true });
+//   } catch (error) {
+//     console.log("myPages.js -> 프로필 이미지 업데이트에서 에러남");
+//     res.status(400).json({ result: false });
+//   }
+// });
+
+const multipart = require("connect-multiparty");
+const multipartMiddleware = multipart();
+
+router.post("/profileUpdate", multipartMiddleware, async (req, res) => {
   try {
     // 프로필 이미지 URL, 유저id
-    const { userProfile } = req.body;
-    const { user } = res.locals;
-    const userId = user.userId;
+    // const { user } = res.locals;
+    // const userId = user.userId;
 
-    await User.updateOne({ userId }, { $set: { userProfile } });
+    const { userId } = req.body;
+    const { path } = req.files.null;
+
+    await User.updateOne({ userId }, { $set: { userProfile: path } });
     res.status(200).json({ result: true });
   } catch (error) {
     console.log("myPages.js -> 프로필 이미지 업데이트에서 에러남");

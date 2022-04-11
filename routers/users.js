@@ -52,7 +52,7 @@ router.post("/logIn", async (req, res) => {
 
 // });
 
-//auth를 roter.get("/logout", auth (req, res) =>) {} 테스트를 위해 뺐음.
+//auth를 router.get("/logout", auth (req, res) =>) {} 테스트를 위해 뺐음.
 
 //유저가 회원가입 요청시 사용하는 API입니다.
 //썬더 클론 - 더미 데이터로 테스트 완료.
@@ -66,12 +66,12 @@ router.post("/signUp", async (req, res) => {
   let { userId, userPw, userName } = req.body;
 
   const userProfile = initProfile;
-  const existusers = await User.findOne({ userId });
+  const existUsers = await User.findOne({ userId });
 
   // 유저가 회원가입 할 시, 유저의 초기 프로필 사진 지정 ->  위의 initProfile 에서
   // url 링크를 가져온다 -> 유저의 초기 프로필 사진이 고정된다.
 
-  if (existusers) {
+  if (existUsers) {
     console.log("중복 아이디 찾기에서 에러 발생");
     res.status(400).send({
       result: "중복된 아이디가 존재합니다.",
