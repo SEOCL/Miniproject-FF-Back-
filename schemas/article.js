@@ -33,6 +33,9 @@ const articleSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  userInfo: {
+    type: Object,
+  },
 });
 
 module.exports = mongoose.model("article", articleSchema);

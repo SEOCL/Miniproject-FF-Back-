@@ -51,9 +51,8 @@ router.get("/article", authMiddleware, async (req, res) => {
 router.get("/articleLike", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
-    // const { user } = res.locals;
-    // const userId = user.userId;
-    const userId = "111";
+    const { user } = res.locals;
+    const userId = user.userId;
     const articleLikeNum = await Like.find({ userId }); //userId, articleNum
 
     const articles = [];

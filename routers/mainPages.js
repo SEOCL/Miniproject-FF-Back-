@@ -9,17 +9,17 @@ const router = express.Router();
 // 메인페이지 데이터
 router.get("/main", async (req, res) => {
   try {
-    const articles = await Article.find({});
+    let articles = await Article.find({});
 
-    const articleUsers = [];
     for (let user of articles) {
-      const userInfo = await User.findOne({
+      let userInfo = await User.findOne({
         userId: user.userId,
       });
-      articleUsers.push(userInfo);
+      userInfo.userPw = "";
+      user.userInfo = userInfo;
     }
 
-    res.status(200).json({ articles, articleUsers });
+    res.status(200).json({ articles });
   } catch (error) {
     console.log("mainPages.js -> 메인페이지에서 에러남");
     res.status(404).json({ result: false });
@@ -67,13 +67,12 @@ router.get("/search", async (req, res) => {
 });
 
 // 좋아요 추가 삭제 기능
-router.post("/like", async (req, res) => {
+router.post("/like", authMiddleware, async (req, res) => {
   try {
     const { articleNum, like } = req.body;
 
-    // const { user } = res.locals.user;
-    // const userId = user.userId;
-    const userId = "111";
+    const { user } = res.locals.user;
+    const userId = user.userId;
 
     if (like) {
       await Article.update({ articleNum }, { $inc: { articleLikeNum: -1 } });
