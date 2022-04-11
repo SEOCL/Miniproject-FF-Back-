@@ -1,5 +1,6 @@
 const express = require("express");
 const connect = require("./schemas/index");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 const port = 3000;
