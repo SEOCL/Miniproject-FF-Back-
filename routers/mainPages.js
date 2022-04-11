@@ -8,9 +8,9 @@ const router = express.Router();
 // 메인페이지 데이터
 router.get("/main", async (req, res) => {
   try {
-    const article = await Article.find({});
+    const articles = await Article.find({});
 
-    res.status(200).json({ article });
+    res.status(200).json({ articles });
   } catch (error) {
     console.log("mainPages.js -> 메인페이지에서 에러남");
     res.status(404).json({ result: false });
@@ -22,7 +22,7 @@ router.get("/modal", async (req, res) => {
   try {
     const { articleNum } = req.query;
 
-    const comment = await Comment.find({ articleNum });
+    const comments = await Comment.find({ articleNum });
     const like = await Like.find({ articleNum });
 
     let likeCheck = false;
@@ -31,7 +31,7 @@ router.get("/modal", async (req, res) => {
       likeCheck = true;
     }
 
-    res.status(200).json({ comment, like: likeCheck });
+    res.status(200).json({ comments, like: likeCheck });
   } catch (error) {
     console.log("mainPages.js -> 모달창에서 에러남");
     res.status(404).json({ result: false });
@@ -45,12 +45,12 @@ router.get("/search", async (req, res) => {
 
     console.log(articleKind, articleDesc);
 
-    const article = await Article.find({
+    const articles = await Article.find({
       articleKind: articleKind,
       articleDesc: { $regex: articleDesc },
     });
 
-    res.status(200).json({ article });
+    res.status(200).json({ articles });
   } catch (error) {
     console.log("mainPages.js -> 검색에서 에러남");
     res.status(404).json({ result: false });
