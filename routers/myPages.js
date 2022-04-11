@@ -51,35 +51,24 @@ router.get("/article", authMiddleware, async (req, res) => {
 router.get("/articleLike", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
-    const { user } = res.locals;
-    const userId = user.userId;
+    // const { user } = res.locals;
+    // const userId = user.userId;
+    const userId = "111";
     const articleLikeNum = await Like.find({ userId }); //userId, articleNum
 
-    [
-      {
-        userId: "123",
-        articleNum: 1,
-      },
-      {
-        userId: "123",
-        articleNum: 1,
-      },
-    ];
+    const articles = [];
+    for (let articleNum of articleLikeNum) {
+      const articleOne = await Article.findOne({
+        articleNum: articleNum.articleNum,
+      });
+      articles.push(articleOne);
+    }
 
-    let articles = [];
-    articleLikeNum.forEach((articleOne) => {
-      articles.push(Article.findOne({ articleNum: articleOne.articleNum }));
-    });
-
-    // for (let articleNum of articleLikeNum) {
-    //   const articleOne = await Article.findOne({ articleNum });
-    //   articles.push(articleOne);
-    // }
-
-    res.status(200).json(articles);
+    res.status(200).json({ articles });
   } catch (error) {
-    console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
-    res.status(400).json({ result: false });
+    console.log(error);
+    // console.log("myPages.js -> 내가 좋아요 누른 게시글 조회에서 에러남");
+    // res.status(400).json({ result: false });
   }
 });
 
@@ -87,7 +76,7 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
 // 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
 // 인증미들웨어 추가예정
-router.post("/profileUpdate", async (req, res) => {
+router.post("/profileUpdate", authMiddleware, async (req, res) => {
   try {
     // 프로필 이미지 URL, 유저id
     const { userProfile } = req.body;
