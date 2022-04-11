@@ -67,8 +67,8 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
     res.status(200).json({ articles });
   } catch (error) {
     console.log(error);
-    // console.log("myPages.js -> 내가 좋아요 누른 게시글 조회에서 에러남");
-    // res.status(400).json({ result: false });
+    console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
+    res.status(400).json({ result: false });
   }
 });
 
