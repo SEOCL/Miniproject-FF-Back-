@@ -67,13 +67,12 @@ router.get("/search", async (req, res) => {
 });
 
 // 좋아요 추가 삭제 기능
-router.post("/like", async (req, res) => {
+router.post("/like", authMiddleware, async (req, res) => {
   try {
     const { articleNum, like } = req.body;
 
-    // const { user } = res.locals.user;
-    // const userId = user.userId;
-    const userId = "111";
+    const { user } = res.locals.user;
+    const userId = user.userId;
 
     if (like) {
       await Article.update({ articleNum }, { $inc: { articleLikeNum: -1 } });
