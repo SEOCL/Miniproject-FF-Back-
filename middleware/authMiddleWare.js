@@ -14,7 +14,9 @@ module.exports = (req, res, next) => {
       .exec()
       .then((user) => {
         res.locals.user = user;
+        //로컬의 DB에 있는 유저 정보를 가지고 있음.
         res.locals.token = logInToken;
+        //로컬에 존재하는 로그인 토큰
         next();
       });
   } catch (error) {
@@ -23,3 +25,4 @@ module.exports = (req, res, next) => {
     return;
   }
 };
+//미들웨어를 거치면 인증이 끝남.

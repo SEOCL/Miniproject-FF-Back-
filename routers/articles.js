@@ -3,16 +3,18 @@
 const express = require("express");
 const router = express.Router();
 const Article = require("../schemas/article");
+const authMiddleware = require("../middleware/authMiddleWare");
 
 // 게시글 등록
 // 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
 // 인증미들웨어 추가예정
-router.post("/articlePost", async (req, res) => {
+router.post("/articlePost", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
     const { articleDesc, articleThumb, articleKind } = req.body;
-    const userId = "토큰에서 뽑아야함";
+    const { user } = res.locals.user;
+    const userId = user.userId;
 
     // articleNum이 제일 큰 document 가져오기
     const maxNumber = await Article.findOne().sort("-articleNum");
@@ -49,17 +51,17 @@ router.post("/articlePost", async (req, res) => {
 // 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
 // 인증미들웨어 추가예정
-router.get("/articleUpdateRaw", async (req, res) => {
+router.get("/articleUpdateRaw", authMiddleware, async (req, res) => {
   try {
     // 게시글 고유번호
     const { articleNum } = req.query;
-    const articles = await Article.find({ articleNum: Number(articleNum) }); // 게시글의 수정내용이 없어용 [작성중임]
+    articles = await Article.find({ articleNum: Number(articleNum) }); // 게시글의 수정내용이 없어용 [작성중임]
     res.status(200).send(articles);
   } catch (error) {
     console.log(
       "articles.js -> 게시글 업데이트 - 원본데이터 내려주기에서 에러남"
     );
-    res.status(401).json({ result: false });
+    res.status(400).json({ result: false });
   }
 });
 
@@ -67,7 +69,7 @@ router.get("/articleUpdateRaw", async (req, res) => {
 // 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
 // 인증미들웨어 추가예정
-router.put("/articleUpdate", async (req, res) => {
+router.put("/articleUpdate", authMiddleware, async (req, res) => {
   try {
     // 게시글 수정내용, 게시글 고유번호, 게시글 이미지URL, 게시글 카테고리
     const { articleDesc, articleNum, articleThumb, articleKind } = req.body;
@@ -79,15 +81,12 @@ router.put("/articleUpdate", async (req, res) => {
     res.status(200).json({ result: true });
   } catch (error) {
     console.log("articles.js -> 게시글 업데이트에서 에러남");
-    res.status(401).json({ result: false });
+    res.status(400).json({ result: false });
   }
 });
 
 // 게시글 삭제
-// 더미 데이터 테스트 완료 ##
-// 토큰 테스트 미완료
-// 인증미들웨어 추가예정
-router.delete("/articleDelete", async (req, res) => {
+router.delete("/articleDelete", authMiddleware, async (req, res) => {
   try {
     // 게시글 고유번호
     const { articleNum } = req.body;
@@ -95,8 +94,7 @@ router.delete("/articleDelete", async (req, res) => {
     res.status(200).json({ result: true });
   } catch (error) {
     console.log("articles.js -> 게시글 삭제에서 에러남");
-    console.log(error);
-    res.status(401).json({ result: false });
+    res.status(400).json({ result: false });
   }
 });
 
