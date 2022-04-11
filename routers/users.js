@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const myKey = fs.readFileSync(__dirname + "/../middleware/key.txt").toString();
 const initProfile = fs.readFileSync(__dirname + "/initProfile.txt").toString();
-const { auth } = require("./middleware/authMiddleWare");
 
 router.get("/user", async (req, res) => {
   res.send("Hello, user");

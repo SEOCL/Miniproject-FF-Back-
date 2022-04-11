@@ -55,29 +55,17 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
     const userId = user.userId;
     const articleLikeNum = await Like.find({ userId }); //userId, articleNum
 
-    [
-      {
-        userId: "123",
-        articleNum: 1,
-      },
-      {
-        userId: "123",
-        articleNum: 1,
-      },
-    ];
+    const articles = [];
+    for (let articleNum of articleLikeNum) {
+      const articleOne = await Article.findOne({
+        articleNum: articleNum.articleNum,
+      });
+      articles.push(articleOne);
+    }
 
-    let articles = [];
-    articleLikeNum.forEach((articleOne) => {
-      articles.push(Article.findOne({ articleNum: articleOne.articleNum }));
-    });
-
-    // for (let articleNum of articleLikeNum) {
-    //   const articleOne = await Article.findOne({ articleNum });
-    //   articles.push(articleOne);
-    // }
-
-    res.status(200).json(articles);
+    res.status(200).json({ articles });
   } catch (error) {
+    console.log(error);
     console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
     res.status(400).json({ result: false });
   }
