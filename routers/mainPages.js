@@ -9,17 +9,17 @@ const router = express.Router();
 // 메인페이지 데이터
 router.get("/main", async (req, res) => {
   try {
-    const articles = await Article.find({});
+    let articles = await Article.find({});
 
-    const articleUsers = [];
     for (let user of articles) {
-      const userInfo = await User.findOne({
+      let userInfo = await User.findOne({
         userId: user.userId,
       });
-      articleUsers.push(userInfo);
+      userInfo.userPw = "";
+      user.userInfo = userInfo;
     }
 
-    res.status(200).json({ articles, articleUsers });
+    res.status(200).json({ articles });
   } catch (error) {
     console.log("mainPages.js -> 메인페이지에서 에러남");
     res.status(404).json({ result: false });
