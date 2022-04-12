@@ -18,9 +18,9 @@ router.post(
     try {
       // 글내용, 이미지URL, 카테고리
       const { articleDesc, articleKind } = req.body;
-      const { user } = res.locals.user;
-      const userId = user.userId;
-      let articleThumb = req.files.null.path;
+      const { userId } = res.locals.user;
+
+      let articleThumb = req.files.articleThumb.path;
       articleThumb = articleThumb.replace("uploads", "");
 
       // articleNum이 제일 큰 document 가져오기
@@ -47,7 +47,9 @@ router.post(
 
       res.status(200).json({ result: true });
     } catch (error) {
+      console.log(error);
       console.log("articles.js -> 게시글 등록에서 에러남");
+
       res.status(400).json({ result: false });
     }
   }
@@ -62,9 +64,11 @@ router.get("/articleUpdateRaw", authMiddleware, async (req, res) => {
     articles = await Article.find({ articleNum: Number(articleNum) });
     res.status(200).send(articles);
   } catch (error) {
+    console.log(error);
     console.log(
       "articles.js -> 게시글 업데이트 - 원본데이터 내려주기에서 에러남"
     );
+
     res.status(400).json({ result: false });
   }
 });
@@ -100,6 +104,7 @@ router.put(
       );
       res.status(200).json({ result: true });
     } catch (error) {
+      console.log(error);
       console.log("articles.js -> 게시글 업데이트에서 에러남");
       res.status(400).json({ result: false });
     }
@@ -115,6 +120,7 @@ router.delete("/articleDelete", authMiddleware, async (req, res) => {
     await Article.deleteOne({ articleNum });
     res.status(200).json({ result: true });
   } catch (error) {
+    console.log(error);
     console.log("articles.js -> 게시글 삭제에서 에러남");
     res.status(400).json({ result: false });
   }

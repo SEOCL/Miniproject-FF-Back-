@@ -19,6 +19,7 @@ router.post("/pwCheck", authMiddleware, async (req, res) => {
     return;
   } else {
     console.log("myPages.js -> 비밀번호 체크에서 에러남");
+
     res.status(400).json({ result: false });
     return;
   }
@@ -35,7 +36,9 @@ router.get("/article", authMiddleware, async (req, res) => {
 
     res.status(200).json(articles);
   } catch (error) {
+    console.log(error);
     console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
+
     res.status(400).json({ result: false });
   }
 });
@@ -61,49 +64,40 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
   } catch (error) {
     console.log(error);
     console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
+
     res.status(400).json({ result: false });
   }
 });
 
-// 프로필 이미지 업데이트
+// 프로필 이미지, 유저닉네임 업데이트(내 정보 수정)
 // 더미 데이터 테스트 완료 ##
-router.post(
-  "/profileUpdate",
+router.put(
+  "/myInfoUpdate",
   multipartMiddleware,
   authMiddleware,
   async (req, res) => {
     try {
-      // 프로필 이미지 URL, 유저id
+      // 유저닉네임, 유저Id
+      const { userName } = req.body; // 유저닉네임
       const { user } = res.locals;
-      const userId = user.userId;
+      const { userId } = user; // 유저Id
 
-      let { path } = req.files.null;
+      // 프로필 이미지 파일경로
+      let { path } = req.files.userProfile;
       path = path.replace("uploads", "");
 
-      await User.updateOne({ userId }, { $set: { userProfile: path } });
+      await User.updateOne(
+        { userId },
+        { $set: { userProfile: path, userName } }
+      );
       res.status(200).json({ result: true });
     } catch (error) {
-      console.log("myPages.js -> 프로필 이미지 업데이트에서 에러남");
+      console.log(error);
+      console.log("myPages.js -> 내 정보 수정에서 에러남");
+
       res.status(400).json({ result: false });
     }
   }
 );
-
-// 유저 닉네임 업데이트
-// 더미 데이터 테스트 완료 ##
-router.post("/nameUpdate", authMiddleware, async (req, res) => {
-  try {
-    // 유저 닉네임, 유저id
-    const { userName } = req.body;
-    const { user } = res.locals;
-    const userId = user.userId;
-
-    await User.updateOne({ userId }, { $set: { userName } });
-    res.status(200).json({ result: true });
-  } catch (error) {
-    console.log("myPages.js -> 유저 닉네임 업데이트에서 에러남");
-    res.status(400).json({ result: false });
-  }
-});
 
 module.exports = router;
