@@ -4,7 +4,8 @@ const fs = require("fs");
 const myKey = fs.readFileSync(__dirname + "/key.txt").toString();
 
 module.exports = (req, res, next) => {
-  const logInToken = req.cookies.token; // token은 "token"의 이름
+  const Token = req.headers.authorization;
+  const logInToken = Token.replace("Bearer", "");
 
   try {
     const token = jwt.verify(logInToken, myKey);
