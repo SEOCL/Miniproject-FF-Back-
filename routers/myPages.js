@@ -65,15 +65,19 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
 
 // 프로필 이미지 업데이트
 // 토큰 테스트 미완료
-router.post("/profileUpdate", authMiddleware, async (req, res) => {
-  try {
-    console.log(req.files);
-    // console.log(req.body);
-    // const { userProfile } = req.body;
-    const { user } = res.locals;
-    const userId = user.userId;
+const multipart = require("connect-multiparty");
+const multipartMiddleware = multipart();
 
-    await User.updateOne({ userId }, { $set: { userProfile } });
+router.post("/profileUpdate", multipartMiddleware, async (req, res) => {
+  try {
+    // 프로필 이미지 URL, 유저id
+    // const { user } = res.locals;
+    // const userId = user.userId;
+
+    const { userId } = req.body;
+    const { path } = req.files.null;
+
+    await User.updateOne({ userId }, { $set: { userProfile: path } });
     res.status(200).json({ result: true });
   } catch (error) {
     console.log("myPages.js -> 프로필 이미지 업데이트에서 에러남");

@@ -52,12 +52,18 @@ router.get("/search", async (req, res) => {
   try {
     const { articleKind, articleDesc } = req.query;
 
-    console.log(articleKind, articleDesc);
-
     const articles = await Article.find({
       articleKind: articleKind,
       articleDesc: { $regex: articleDesc },
     });
+
+    for (let user of articles) {
+      let userInfo = await User.findOne({
+        userId: user.userId,
+      });
+      userInfo.userPw = "";
+      user.userInfo = userInfo;
+    }
 
     res.status(200).json({ articles });
   } catch (error) {
