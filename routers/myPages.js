@@ -77,7 +77,8 @@ router.post(
       const { user } = res.locals;
       const userId = user.userId;
 
-      const { path } = req.files.null;
+      let { path } = req.files.null;
+      path = path.replace("uploads", "");
 
       await User.updateOne({ userId }, { $set: { userProfile: path } });
       res.status(200).json({ result: true });
