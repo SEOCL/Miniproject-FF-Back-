@@ -3,15 +3,19 @@ const express = require("express");
 const router = express.Router();
 const Article = require("../schemas/article");
 const authMiddleware = require("../middleware/authMiddleWare");
+const multipart = require("connect-multiparty");
+const multipartMiddleware = multipart();
 
 // 게시글 등록
-// 토큰 테스트 미완료
-router.post("/articlePost", authMiddleware, async (req, res) => {
+// 더미 데이터 테스트 완료 ##
+router.post("/articlePost", multipartMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
-    const { articleDesc, articleThumb, articleKind } = req.body;
-    const { user } = res.locals.user;
-    const userId = user.userId;
+    const { articleDesc, articleKind } = req.body;
+    // const { user } = res.locals.user;
+    // const userId = user.userId;
+    const { userId } = req.body;
+    const articleThumb = req.files.null.path;
 
     // articleNum이 제일 큰 document 가져오기
     const maxNumber = await Article.findOne().sort("-articleNum");
@@ -43,7 +47,7 @@ router.post("/articlePost", authMiddleware, async (req, res) => {
 });
 
 // 게시글 업데이트 - 원본데이터 내려주기
-// 토큰 테스트 미완료
+// 더미 데이터 테스트 완료 ##
 router.get("/articleUpdateRaw", authMiddleware, async (req, res) => {
   try {
     // 게시글 고유번호
@@ -59,11 +63,12 @@ router.get("/articleUpdateRaw", authMiddleware, async (req, res) => {
 });
 
 // 게시글 업데이트
-// 토큰 테스트 미완료
-router.put("/articleUpdate", authMiddleware, async (req, res) => {
+// 더미 데이터 테스트 완료 ##
+router.put("/articleUpdate", multipartMiddleware, async (req, res) => {
   try {
     // 게시글 수정내용, 게시글 고유번호, 게시글 이미지URL, 게시글 카테고리
-    const { articleDesc, articleNum, articleThumb, articleKind } = req.body;
+    const { articleDesc, articleNum, articleKind } = req.body;
+    const articleThumb = req.files.null.path;
     const articleDate = new Date();
     await Article.updateOne(
       { articleNum },
