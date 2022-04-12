@@ -44,8 +44,10 @@ router.get("/modal", async (req, res) => {
       likeCheck = true;
     }
 
+    const totalLike = like.length;
+
     // res.status(200).json({ comments, like: likeCheck });
-    res.status(200).json({ comments, like });
+    res.status(200).json({ comments, like, totalLike });
   } catch (error) {
     console.log(error);
     console.log("mainPages.js -> 모달창에서 에러남");
