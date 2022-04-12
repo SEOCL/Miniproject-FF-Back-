@@ -34,15 +34,18 @@ router.get("/modal", async (req, res) => {
     const { articleNum } = req.query;
 
     const comments = await Comment.find({ articleNum });
-    const like = await Like.find({ articleNum });
+    const like = await Like.find({ articleNum }); // [{userId:"123",articleNum: 1}, {userId:"111",articleNum: 1}]
 
+    // 좋아요 안누른 초기상태 : false
     let likeCheck = false;
 
+    // 좋아요 누른 상태 : true
     if (like) {
       likeCheck = true;
     }
 
-    res.status(200).json({ comments, like: likeCheck });
+    // res.status(200).json({ comments, like: likeCheck });
+    res.status(200).json({ comments, like });
   } catch (error) {
     console.log(error);
     console.log("mainPages.js -> 모달창에서 에러남");
@@ -84,7 +87,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// 좋아요 추가 삭제 기능
+// 좋아요 증가, 감소 기능
 router.post("/like", authMiddleware, async (req, res) => {
   try {
     const { articleNum, like } = req.body;
