@@ -4,7 +4,7 @@ const router = express.Router();
 const Article = require("../schemas/article");
 const authMiddleware = require("../middleware/authMiddleWare");
 const multipart = require("connect-multiparty");
-const multipartMiddleware = multipart();
+const multipartMiddleware = multipart({ uploadDir: "uploads" });
 
 // 게시글 등록
 // 더미 데이터 테스트 완료 ##

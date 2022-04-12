@@ -26,6 +26,7 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(requestMiddleware);
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("uploads"));
 
 // 라우터 연결
 app.use("/api", [articleRouter, mainPageRouter, myPageRouter]);
