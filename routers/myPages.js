@@ -1,5 +1,3 @@
-// 내가 맡은 부분
-
 const express = require("express");
 const router = express.Router();
 const Article = require("../schemas/article");
@@ -8,9 +6,7 @@ const Like = require("../schemas/like");
 const authMiddleware = require("../middleware/authMiddleWare");
 
 // 마이페이지 비밀번호 체크
-// 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
-// 인증미들웨어 추가예정
 router.post("/pwCheck", authMiddleware, async (req, res) => {
   // 글내용, 이미지URL, 카테고리
   const { userPw } = req.body;
@@ -27,9 +23,7 @@ router.post("/pwCheck", authMiddleware, async (req, res) => {
 });
 
 // 내가 작성한 게시글 조회
-// 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
-// 인증미들웨어 추가예정
 router.get("/article", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
@@ -45,9 +39,7 @@ router.get("/article", authMiddleware, async (req, res) => {
 });
 
 // 내가 좋아요 누른 게시글 조회
-// 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
-// 인증미들웨어 추가예정
 router.get("/articleLike", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
@@ -72,13 +64,12 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
 });
 
 // 프로필 이미지 업데이트
-// 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
-// 인증미들웨어 추가예정
 router.post("/profileUpdate", authMiddleware, async (req, res) => {
   try {
-    // 프로필 이미지 URL, 유저id
-    const { userProfile } = req.body;
+    console.log(req.files);
+    // console.log(req.body);
+    // const { userProfile } = req.body;
     const { user } = res.locals;
     const userId = user.userId;
 
@@ -91,9 +82,7 @@ router.post("/profileUpdate", authMiddleware, async (req, res) => {
 });
 
 // 유저 닉네임 업데이트
-// 더미 데이터 테스트 완료 ##
 // 토큰 테스트 미완료
-// 인증미들웨어 추가예정
 router.post("/nameUpdate", authMiddleware, async (req, res) => {
   try {
     // 유저 닉네임, 유저id
