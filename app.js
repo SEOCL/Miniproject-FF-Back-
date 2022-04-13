@@ -15,7 +15,16 @@ const userRouter = require("./routers/users");
 
 // 접속 로그 남기기
 const requestMiddleware = (req, res, next) => {
-  console.log("Request URL:", req.originalUrl, " - ", new Date());
+  console.log(
+    "[Ip address]:",
+    req.ip,
+    "[method]:",
+    req.method,
+    "Request URL:",
+    req.originalUrl,
+    " - ",
+    new Date()
+  );
   next();
 };
 
