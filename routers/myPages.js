@@ -29,10 +29,9 @@ router.post("/pwCheck", authMiddleware, async (req, res) => {
 // 더미 데이터 테스트 완료 ##
 router.get("/article", authMiddleware, async (req, res) => {
   try {
-    // 글내용, 이미지URL, 카테고리
-    const articles = await Article.find({ userId });
     const { user } = res.locals;
-    const userId = user.userId;
+    const { userId } = user;
+    const articles = await Article.find({ userId });
 
     res.status(200).json(articles);
   } catch (error) {
@@ -49,13 +48,16 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
   try {
     // 글내용, 이미지URL, 카테고리
     const { user } = res.locals;
-    const userId = user.userId;
-    const articleLikeNum = await Like.find({ userId }); //userId, articleNum
+    const { userId } = user;
+
+    // 좋아요 누른 article 명단
+    // articleLikes = [{ userId, articleNum }, { userId, articleNum }]
+    const articleLikes = await Like.find({ userId });
 
     const articles = [];
-    for (let articleNum of articleLikeNum) {
+    for (let articleLike of articleLikes) {
       const articleOne = await Article.findOne({
-        articleNum: articleNum.articleNum,
+        articleNum: articleLike.articleNum,
       });
       articles.push(articleOne);
     }
