@@ -9,7 +9,7 @@ const router = express.Router();
 // 메인페이지 데이터
 router.get("/main", async (req, res) => {
   try {
-    let articles = await Article.find({});
+    let articles = await Article.find({}).sort({ articleDate: -1 });
 
     for (let user of articles) {
       let userInfo = await User.findOne({
