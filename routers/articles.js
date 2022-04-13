@@ -83,7 +83,7 @@ router.put(
     try {
       // 게시글 수정내용, 게시글 고유번호, 게시글 이미지URL, 게시글 카테고리
       const { articleDesc, articleNum, articleKind } = req.body;
-      let articleThumb = req.files.null.path;
+      let articleThumb = req.files.articleThumb.path;
       articleThumb = articleThumb.replace("uploads", "");
 
       const userInfo = res.locals.user;
