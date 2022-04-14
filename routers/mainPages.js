@@ -113,8 +113,6 @@ router.post("/like", authMiddleware, async (req, res) => {
   }
 });
 
-// 댓글 그대로 응답
-
 // 댓글 작성
 router.post("/commentPost", authMiddleware, async (req, res) => {
   try {
