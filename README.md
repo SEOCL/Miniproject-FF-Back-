@@ -15,8 +15,8 @@
   
 2. **백엔드 3명**(Router 부분으로 파트 배분)
 - **이태성**(4조 팀장): 백엔드 틀과 깃 북(API명세서) 수정, 전체적인 팀 진행과 조율, Article API & My Page API, 미들웨어, 오류 수정
-- **김동선**: Main Page API & My Page API, 미들웨어, 오류 수정
-- **서현우**: User API, 미들웨어
+- **김동선**: Main Page API & My Page API, 미들웨어, 오류 수정, 코드 피드백
+- **서현우**: User API, 미들웨어, 코드 피드백
 
 ## 3. 사용 기술(개발 툴) 🛠
 - **Server**: AWS EC2 (Ubuntu 18.04 LTS)
