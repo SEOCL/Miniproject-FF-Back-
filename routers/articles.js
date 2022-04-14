@@ -118,9 +118,11 @@ router.put(
 router.delete("/articleDelete", authMiddleware, async (req, res) => {
   try {
     // 게시글 고유번호
-    const { articleNum } = req.body;
+    // const { articleNum } = req.body;
+    const { articleNum } = req.query;
+
     console.log("articleNum", articleNum);
-    console.log(req.body);
+    // console.log(req.body);
 
     await Article.deleteOne({ articleNum });
     await Comment.deleteMany({ articleNum });
