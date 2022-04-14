@@ -31,6 +31,7 @@ router.get("/article", authMiddleware, async (req, res) => {
   try {
     const { user } = res.locals;
     const { userId } = user;
+    console.log(userId);
     const articles = await Article.find({ userId });
 
     res.status(200).json(articles);
