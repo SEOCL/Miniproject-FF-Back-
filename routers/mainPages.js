@@ -113,6 +113,8 @@ router.post("/like", authMiddleware, async (req, res) => {
   }
 });
 
+// 댓글 그대로 응답
+
 // 댓글 작성
 router.post("/commentPost", authMiddleware, async (req, res) => {
   try {
@@ -144,8 +146,9 @@ router.post("/commentPost", authMiddleware, async (req, res) => {
     });
 
     await Article.updateOne({ articleNum }, { $inc: { articleCommentNum: 1 } });
+    const comment = await Comment.findOne({ commentNum });
 
-    res.status(200).json({ result: true });
+    res.status(200).json({ result: true, comment });
   } catch (error) {
     console.log(error);
     console.log("mainPages.js -> 댓글 작성에서 에러남");
