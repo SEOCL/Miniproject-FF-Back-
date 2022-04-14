@@ -98,10 +98,10 @@ router.post("/like", authMiddleware, async (req, res) => {
     const { userId } = user;
 
     if (like) {
-      await Article.update({ articleNum }, { $inc: { articleLikeNum: -1 } }); // inc: increase
+      await Article.updateOne({ articleNum }, { $inc: { articleLikeNum: -1 } }); // inc: increase
       await Like.deleteOne({ articleNum, userId });
     } else {
-      await Article.update({ articleNum }, { $inc: { articleLikeNum: 1 } });
+      await Article.updateOne({ articleNum }, { $inc: { articleLikeNum: 1 } });
       await Like.create({ articleNum, userId });
     }
 
@@ -143,7 +143,7 @@ router.post("/commentPost", authMiddleware, async (req, res) => {
       commentDate,
     });
 
-    await Article.update({ articleNum }, { $inc: { articleCommentNum: 1 } });
+    await Article.updateOne({ articleNum }, { $inc: { articleCommentNum: 1 } });
 
     res.status(200).json({ result: true });
   } catch (error) {
@@ -162,7 +162,7 @@ router.delete("/commentDelete", authMiddleware, async (req, res) => {
     const commentArticleNum = await Comment.findOne({ commentNum });
 
     await Comment.deleteOne({ commentNum });
-    await Article.update(
+    await Article.updateOne(
       { articleNum: commentArticleNum.articleNum },
       { $inc: { articleCommentNum: -1 } }
     );
