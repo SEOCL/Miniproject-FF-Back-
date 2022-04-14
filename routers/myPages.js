@@ -35,7 +35,7 @@ router.get("/article", authMiddleware, async (req, res) => {
     const articles = await Article.find({ userId });
     console.log(articles);
 
-    res.status(200).json(articles);
+    res.status(200).json({ articles });
   } catch (error) {
     console.log(error);
     console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
