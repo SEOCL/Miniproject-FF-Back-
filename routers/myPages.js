@@ -33,6 +33,7 @@ router.get("/article", authMiddleware, async (req, res) => {
     const { userId } = user;
     console.log(userId);
     const articles = await Article.find({ userId });
+    console.log(articles);
 
     res.status(200).json(articles);
   } catch (error) {
