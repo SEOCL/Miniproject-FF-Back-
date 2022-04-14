@@ -9,6 +9,15 @@
 
 > 사이트 실행 영상: https://www.youtube.com/watch?v=MN4U-uzG4Ms&feature=youtu.be
 
+![{9F8A327A-A579-44C2-974C-981023B7339F}](https://user-images.githubusercontent.com/101075938/163362023-cbdfc66a-e875-4f02-8147-f831fba69aaf.png)
+
+![{D6348576-53F9-4D63-927F-8F53553B2A5B}](https://user-images.githubusercontent.com/101075938/163362046-05ee9a7f-1024-4edc-be98-c56d48e08b9a.png)
+
+![{E1A0E908-9967-47F9-A27A-8C28FCF40DB5}](https://user-images.githubusercontent.com/101075938/163362084-cbc3b0a0-6aa4-427f-858c-ac3c86ed8ee3.png)
+
+![{3201D459-1513-467B-BED0-7370B67263B4}](https://user-images.githubusercontent.com/101075938/163362106-da57d3f1-ea57-4d00-80d6-1533a14e5524.png)
+
+
 ## 2. 제작 기간 & 팀원 소개 👐
 - 기간: 2022년 4월 7일~ 22년 4월 14일 
 - 총 6명으로 구성된 팀 프로젝트. (C반 4조)
