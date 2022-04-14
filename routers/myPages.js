@@ -62,16 +62,16 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
       articles.push(articleOne);
     }
     // articles = articles.sort({ articleDate: -1 });
+
+    console.log("여기를 봐봡요~~~~~", articles);
     articles.sort(function (a, b) {
       return new Date(b.articleDate) - new Date(a.articleDate);
     });
 
-    console.log("여기를 봐봡요~~~~~", articles);
-
     res.status(200).json({ articles });
   } catch (error) {
     console.log(error);
-    console.log("myPages.js -> 내가 작성한 게시글 조회에서 에러남");
+    console.log("myPages.js -> 내가 좋아요 누른 게시글 조회에서 에러남");
 
     res.status(400).json({ result: false });
   }
