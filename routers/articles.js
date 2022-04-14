@@ -124,9 +124,9 @@ router.delete("/articleDelete", authMiddleware, async (req, res) => {
     console.log("articleNum", articleNum);
     // console.log(req.body);
 
-    await Article.deleteOne({ articleNum });
-    await Comment.deleteMany({ articleNum });
-    await Like.deleteMany({ articleNum });
+    await Article.deleteOne({ articleNum: Number(articleNum) });
+    await Comment.deleteMany({ articleNum: Number(articleNum) });
+    await Like.deleteMany({ articleNum: Number(articleNum) });
 
     res.status(200).json({ result: true });
   } catch (error) {
