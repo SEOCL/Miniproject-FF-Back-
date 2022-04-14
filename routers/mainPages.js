@@ -159,8 +159,10 @@ router.post("/commentPost", authMiddleware, async (req, res) => {
 router.delete("/commentDelete", authMiddleware, async (req, res) => {
   try {
     const { commentNum } = req.body;
+    console.log("commentNum", commentNum);
 
     const commentArticleNum = await Comment.findOne({ commentNum });
+    console.log("commentArticleNum", commentArticleNum);
 
     await Comment.deleteOne({ commentNum });
     await Article.updateOne(
