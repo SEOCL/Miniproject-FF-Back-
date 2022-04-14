@@ -59,11 +59,16 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
       const articleOne = await Article.findOne({
         articleNum: articleLike.articleNum,
       });
-      articles.push(articleOne);
+      if (articleOne === null) {
+        continue;
+      } else {
+        articles.push(articleOne);
+      }
     }
     // articles = articles.sort({ articleDate: -1 });
 
     console.log("여기를 봐봡요~~~~~", articles);
+
     articles.sort(function (a, b) {
       return new Date(b.articleDate) - new Date(a.articleDate);
     });

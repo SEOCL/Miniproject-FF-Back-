@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const Article = require("../schemas/article");
+const Comment = require("../schemas/comment");
+const Like = require("../schemas/like");
 const authMiddleware = require("../middleware/authMiddleWare");
 const multipart = require("connect-multiparty");
 const multipartMiddleware = multipart({
@@ -118,6 +120,9 @@ router.delete("/articleDelete", authMiddleware, async (req, res) => {
     // 게시글 고유번호
     const { articleNum } = req.body;
     await Article.deleteOne({ articleNum });
+    await Comment.deleteMany({ articleNum });
+    await Like.deleteMany({ articleNum });
+
     res.status(200).json({ result: true });
   } catch (error) {
     console.log(error);
