@@ -31,9 +31,7 @@ router.get("/article", authMiddleware, async (req, res) => {
   try {
     const { user } = res.locals;
     const { userId } = user;
-    console.log(userId);
-    const articles = await Article.find({ userId });
-    console.log(articles);
+    const articles = await Article.find({ userId }).sort({ articleDate: -1 });
 
     res.status(200).json({ articles });
   } catch (error) {
@@ -63,6 +61,8 @@ router.get("/articleLike", authMiddleware, async (req, res) => {
       });
       articles.push(articleOne);
     }
+    articles = articles.sort({ articleDate: -1 });
+    console.log("여기를 봐봡요~~~~~", articles);
 
     res.status(200).json({ articles });
   } catch (error) {
