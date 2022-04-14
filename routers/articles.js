@@ -118,8 +118,8 @@ router.put(
 router.delete("/articleDelete", authMiddleware, async (req, res) => {
   try {
     // 게시글 고유번호
-    // const { articleNum } = req.body;
-    const { articleNum } = req.query;
+    const { articleNum } = req.body;
+    // const { articleNum } = req.query;
 
     console.log("articleNum", articleNum);
     // console.log(req.body);
@@ -134,6 +134,11 @@ router.delete("/articleDelete", authMiddleware, async (req, res) => {
     console.log("articles.js -> 게시글 삭제에서 에러남");
     res.status(400).json({ result: false });
   }
+});
+
+router.delete("/test", async (req, res) => {
+  const test = req.body;
+  res.send(test);
 });
 
 module.exports = router;
