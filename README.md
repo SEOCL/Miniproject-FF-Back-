@@ -20,7 +20,7 @@
 
 ## 3. 사용 기술(개발 툴) 🛠
 - **Server**: AWS EC2 (Ubuntu 18.04 LTS)
--**Framework**: React(FE), Node.js + Express(BE) (Javascript)
+- **Framework**: React(FE), Node.js + Express(BE) (Javascript)
 - **Database**: MongoDB
 - **Design Tool**: Figma
 - **Tool** : Git Hub, Notion, Git Book
